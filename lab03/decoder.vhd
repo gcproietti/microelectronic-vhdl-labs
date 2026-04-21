@@ -50,7 +50,7 @@ architecture MIXED of DECODER is
     signal local_ADD_WR : PHYSICAL_ADDR;
     signal local_ADD_RD1 : PHYSICAL_ADDR;
     signal local_ADD_RD2 : PHYSICAL_ADDR;
-    signal local_ADD_toStack : PHYSICAL_ADDR; 
+    signal local_ADDR_Stack : PHYSICAL_ADDR; 
     
     --LOCAL FLAGS
     signal CANSAVE, CANRESTORE : std_logic;
@@ -127,7 +127,7 @@ begin
                     SPILL <= '1';
                     
                     if spill_counter<2*N then
-                        local_ADD_toStack <= SWP*2*N + spill_counter;
+                        local_ADDR_Stack <= SWP*2*N + spill_counter; --per 2N instead of 3N because we want only the IN and LOCAL reg because the OUT are shared with the next window
                         spill_counter <= spill_counter +1;
 
                     else 
@@ -159,12 +159,24 @@ begin
                 if CANRESTORE = '0' then
                     FILL <= '1';
                     
-                    if SWP = (F - 1) then
-                        SWP <= 0;
-                    else
-                        SWP <= SWP - 1;
-                    end if;
+                    if spill_counter<2*N then
+                        if SWP = 0 then
+                            local_ADDR_Stack <= (F-1)*2*N + spill_counter;
+                        else
+                            local_ADDR_Stack <= (SWP-1)*2*N + spill_counter;
+                        end if;
+                        spill_counter <= spill_counter +1;
+                    else 
+                        used_windows <= used_windows + 1;     
 
+                        if SWP = 0 then
+                            SWP <= F-1;
+                        else
+                            SWP <= SWP - 1;
+                        end if;
+                        FILL <= '0';
+                        spill_counter <= 0;
+                    end if;
                 end if;
             end if;
 
