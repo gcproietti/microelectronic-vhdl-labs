@@ -1,3 +1,7 @@
+library IEEE;
+use IEEE.std_logic_1164.all; --  libreria IEEE con definizione tipi standard logic
+use IEEE.numeric_std.all;
+
 package CONSTANTS is
    constant IVDELAY : time := 0.1 ns;
    constant NDDELAY : time := 0.2 ns;
@@ -15,4 +19,12 @@ package CONSTANTS is
    --
    constant Num_windows : integer := 3;
    constant TP_MUX : time := 0.5 ns; 	
+
+   -- Assuming nbit_addr is a generic (e.g., 5 bits for 32 registers)
+   subtype VIRTUAL_ADDR is natural range 0 to (2**NumBit_address) - 1;
+   type VIR_REG_ARRAY is array(VIRTUAL_ADDR) of std_logic_vector(NumBit_data-1 downto 0);  
+
+   -- For the internal hardware array (Physical)
+   subtype PHYSICAL_ADDR is natural range 0 to (F_const * 2 * N_const) + N_const + M_const - 1;
+   type PHY_REG_ARRAY is array(PHYSICAL_ADDR) of std_logic_vector(NumBit_data-1 downto 0); 
 end CONSTANTS;
