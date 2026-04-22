@@ -28,9 +28,7 @@ signal REGISTERS : VIR_REG_ARRAY;
 begin 
   process (CLK)
     variable TMP_REGISTERS : VIR_REG_ARRAY;
-    --variable WR_ADDR  : VIRTUAL_ADDR;
-    --variable RD1_ADDR : VIRTUAL_ADDR;
-    --variable RD2_ADDR : VIRTUAL_ADDR;
+
   begin
 
     if rising_edge(CLK) then
@@ -48,10 +46,6 @@ begin
         OUT2 <= (others => '0');
 
       elsif ENABLE = '1' then
-
-        --WR_ADDR  := conv_integer(ADD_WR);
-        --RD1_ADDR := conv_integer(ADD_RD1);
-        --RD2_ADDR := conv_integer(ADD_RD2);
 
         if WR = '1' then
           TMP_REGISTERS(ADD_WR) := DATAIN;
@@ -75,8 +69,3 @@ begin
 
 end A;
 
-
---configuration CFG_RF_BEH of registerfile is
---  for A
---  end for;
---end configuration;
