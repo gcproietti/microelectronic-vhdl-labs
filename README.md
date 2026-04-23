@@ -1,4 +1,9 @@
-Explanation:
-1) *.vhd -> entity descriptions
-2) tb_*.vhd -> test-benches
-3) *.vcd -> GTKWave files with the waves resulting from the simulation
+# RISC Processor Components & VHDL Labs
+
+This repository contains VHDL implementations developed for the Microelectronics Systems course. The project focuses on high-performance architecture components, specifically a Windowed Register File and its associated control logic.
+
+## Repository Structure & Naming Convention
+
+* `*.vhd`: Entity descriptions and architectural implementations.
+* `tb_*.vhd`: Test-benches for functional verification.
+* `*.vcd`: Value Change Dump files containing simulation waveforms (GTKWave compatible).
